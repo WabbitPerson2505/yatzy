@@ -9,6 +9,164 @@
 	<link type="text/css" rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
+	<div class="yatzyScreen">
+		<div class="diceHolders">
+			<img src="assets/dice1.png" id="dice1">
+			<img src="assets/dice1.png" id="dice2">
+			<img src="assets/dice1.png" id="dice3">
+			<img src="assets/dice1.png" id="dice4">
+			<img src="assets/dice1.png" id="dice5">
+		</div>
+		<div class="diceHolders">
+			<label class="item" id="keepOrReroll1">Roll</label>
+			<label class="item" id="keepOrReroll2">Roll</label>
+			<label class="item" id="keepOrReroll3">Roll</label>
+			<label class="item" id="keepOrReroll4">Roll</label>
+			<label class="item" id="keepOrReroll5">Roll</label>
+		</div>
+		<div class="diceHolders">
+			<button class="diceBtn" onclick="changeKeepOrRoll(1)">Change</button>
+			<button class="diceBtn" onclick="changeKeepOrRoll(2)">Change</button>
+			<button class="diceBtn" onclick="changeKeepOrRoll(3)">Change</button>
+			<button class="diceBtn" onclick="changeKeepOrRoll(4)">Change</button>
+			<button class="diceBtn" onclick="changeKeepOrRoll(5)">Change</button>
+		</div>
+		<div class="diceHolders">
+			<label class="item">Turn: </label>
+			<label class="item turn" id="rollNumber">0</label>
+			<button class="rollBtn" id="buttonRoller" onclick="roller()">Roll</button>
+		</div>
+	</div>
+	<div class="yatzyCard">
+		<div class="lbChance" id="msgChance" hidden>
+			<label>Please Choose a combination for chance</label>
+		</div>
+		<table class="yatzyScoreCard">
+			<tr>
+				<td>Ones</td>
+				<td id="cellOnes">&nbsp</td>
+				<td>
+					<button id="buttonOnes" onclick="calculateScore('Ones')">Choose</button>
+					<button id="hiddenOnes" onclick="calculateScoreHidden('Ones')" hidden>Ones</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Twos</td>
+				<td id="cellTwos">&nbsp</td>
+				<td>
+					<button id="buttonTwos" onclick="calculateScore('Twos')">Choose</button>
+					<button id="hiddenTwos" onclick="calculateScoreHidden('Twos')" hidden>Twos</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Threes</td>
+				<td id="cellThrees">&nbsp</td>
+				<td>
+					<button id="buttonThrees" onclick="calculateScore('Threes')">Choose</button>
+					<button id="hiddenThrees" onclick="calculateScoreHidden('Threes')" hidden>Threes</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Fours</td>
+				<td id="cellFours">&nbsp</td>
+				<td>
+					<button id="buttonFours" onclick="calculateScore('Fours')">Choose</button>
+					<button id="hiddenFours" onclick="calculateScoreHidden('Fours')" hidden>Fours</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Fives</td>
+				<td id="cellFives">&nbsp</td>
+				<td>
+					<button id="buttonFives" onclick="calculateScore('Fives')">Choose</button>
+					<button id="hiddenFives" onclick="calculateScoreHidden('Fives')" hidden>Fives</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Sixes</td>
+				<td id="cellSixes">&nbsp</td>
+				<td>
+					<button id="buttonSixes" onclick="calculateScore('Sixes')">Choose</button>
+					<button id="hiddenSixes" onclick="calculateScoreHidden('Sixes')" hidden>Sixes</button>
+				</td>
+			</tr>
+			<tr>
+				<td>1 Pair</td>
+				<td id="cellOnePair">&nbsp</td>
+				<td>
+					<button id="buttonOnePair" onclick="calculateScore('OnePair')">Choose</button>
+					<button id="hiddenOnePair" onclick="calculateScoreHidden('OnePair')" hidden>One Pair</button>
+				</td>
+			</tr>
+			<tr>
+				<td>2 Pairs</td>
+				<td id="cellTwoPair">&nbsp</td>
+				<td>
+					<button id="buttonTwoPair" onclick="calculateScore('TwoPair')">Choose</button>
+					<button id="hiddenTwoPair" onclick="calculateScoreHidden('TwoPair')" hidden>Two pair</button>
+				</td>
+			</tr>
+			<tr>
+				<td>3 of a kind</td>
+				<td id="cellThreeOfAKind">&nbsp</td>
+				<td>
+					<button id="buttonThreeOfAKind" onclick="calculateScore('ThreeOfAKind')">Choose</button>
+					<button id="hiddenThreeOfAKind" onclick="calculateScoreHidden('ThreeOfAKind')" hidden>Three of a kind</button>
+				</td>
+			</tr>
+			<tr>
+				<td>4 of a kind</td>
+				<td id="cellFourOfAKind">&nbsp</td>
+				<td>
+					<button id="buttonFourOfAKind" onclick="calculateScore('FourOfAKind')">Choose</button>
+					<button id="hiddenFourOfAKind" onclick="calculateScoreHidden('FourOfAKind')" hidden>Four of a kind</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Small straight</td>
+				<td id="cellSmallStraight">&nbsp</td>
+				<td>
+					<button id="buttonSmallStraight" onclick="calculateScore('SmallStraight')">Choose</button>
+					<button id="hiddenSmallStraight" onclick="calculateScoreHidden('SmallStraight')" hidden>Small straight</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Big straight</td>
+				<td id="cellBigStraight">&nbsp</td>
+				<td>
+					<button id="buttonBigStraight" onclick="calculateScore('BigStraight')">Choose</button>
+					<button id="hiddenBigStraight" onclick="calculateScoreHidden('BigStraight')" hidden>Big straight</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Full house</td>
+				<td id="cellFullHouse">&nbsp</td>
+				<td>
+					<button id="buttonFullHouse" onclick="calculateScore('FullHouse')">Choose</button>
+					<button id="hiddenFullHouse" onclick="calculateScoreHidden('FullHouse')" hidden>Full house</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Chance</td>
+				<td id="cellChance">&nbsp</td>
+				<td>
+					<button id="buttonChance" onclick="calculateScore('Chance')">Choose</button>
+				</td>
+			</tr>
+			<tr>
+				<td>Yatzy</td>
+				<td id="cellYatzy">&nbsp</td>
+				<td>
+					<button id="buttonYatzy" onclick="calculateScore('Yatzy')">Choose</button>
+					<button id="hiddenYatzy" onclick="calculateScoreHidden('Yatzy')" hidden>Yatzy</button>	
+				</td>
+			</tr>
+			<tr>
+				<td>Score: </td>
+				<td colspan="2" id="cellScore">0</td>
+			</tr>
+		</table>
+	</div>
 	
 </body>
 </html>
