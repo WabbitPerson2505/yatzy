@@ -1,9 +1,15 @@
+//Function to calculate the overall
+//score of the game
+//input is an array with the scores of the scoreboxes
 function scoreGame(game) {
 	var totalScore = 0;
 
+	//we know there are 15 scoreboxes
 	for (let i = 0; i < 15; i++) {
 		totalScore += game[i];
 
+		//if category 1 to 6 is at least 63
+		//then add a 25 points bonus
 		if (i == 5 && totalScore >= 63) {
 			totalScore += 25;
 		}
@@ -13,9 +19,15 @@ function scoreGame(game) {
 	return totalScore;
 }
 
+//Function to calculate a score and
+//update the chosen scorebox
+//input is the name of the scorebox
 function calculateScore(scoreBox) {
 
 	if (roll != 0 && scoreBox != "Chance") {
+
+		//Update the score and disable the category that was pressed
+		//so it can't be scored twice
 		var scoreFromBox = scoreTurn(dices, scoreBox);
 		document.getElementById('cell' + scoreBox).innerHTML = scoreFromBox;
 		document.getElementById('button' + scoreBox).disabled = true;
@@ -23,12 +35,16 @@ function calculateScore(scoreBox) {
 
 		reset();
 
+		//If end of game then disable the roll button
 		if (checkEndOfGame(states)) {
 			document.getElementById('buttonRoller').disabled = true;
 		}
 		
 	} else if (roll != 0 && scoreBox == "Chance") {
 
+		//Show the hidden buttons to switch to the chance
+		//interface for choosing a combination for it
+		//and disable the chance button
 		document.getElementById('buttonOnes').hidden = true;
 		document.getElementById('buttonTwos').hidden = true;
 		document.getElementById('buttonThrees').hidden = true;
@@ -46,6 +62,7 @@ function calculateScore(scoreBox) {
 		document.getElementById('buttonYatzy').hidden = true;
 		document.getElementById('buttonChance').disabled = true;
 
+		//Hide previous buttons
 		document.getElementById('msgChance').hidden = false;
 		document.getElementById('hiddenOnes').hidden = false;
 		document.getElementById('hiddenTwos').hidden = false;
@@ -66,12 +83,23 @@ function calculateScore(scoreBox) {
 
 }
 
+//Function to determine what the score
+//for a given scorebox should be
+//input is an array of what dices were
+//rolled and the name of the score box chosen
 function scoreTurn(game, scoreBox) {
 
 	var score = 0;
 
+	//Generate an array of size 6 where the value
+	//of each index is the count of that number
+	//found from the dices rolled
+	//e.g [1,2,2,0,0,0] means 1 one, 2 two, 2 three
+	//and 0 for the rest
 	var dicesNumber = calculateEachDice(game);
 
+	//Update the score and the states
+	//of each category
 	if (scoreBox == "Ones") {
 		score = dicesNumber[0] * 1;
 		scores[0] = score;
@@ -209,7 +237,11 @@ function scoreTurn(game, scoreBox) {
 	return score;
 }
 
+//Function to calculate the chance score
+//input is the name of scorebox
 function calculateScoreHidden(scoreBox) {
+
+	//update score and states
 	var scoreFromHidden = scoreTurn(dices, scoreBox);
 	document.getElementById('cellChance').innerHTML = scoreFromHidden;
 	scores[13] = scoreFromHidden;
@@ -217,6 +249,8 @@ function calculateScoreHidden(scoreBox) {
 	document.getElementById('cellScore').innerHTML = scoreGame(scores);
 	reset();
 
+	//update the buttons so as to revert from visible to hidden
+	//to ressemble the initial page before hiding them
 	document.getElementById('hiddenOnes').hidden = true;
 	document.getElementById('hiddenTwos').hidden = true;
 	document.getElementById('hiddenThrees').hidden = true;
@@ -249,18 +283,21 @@ function calculateScoreHidden(scoreBox) {
 	document.getElementById('buttonChance').hidden = false;
 	document.getElementById('buttonYatzy').hidden = false;
 
+	//if end of game disable the roll button
 	if (checkEndOfGame(states)) {
 			document.getElementById('buttonRoller').disabled = true;
 	}
 }
 
-//There are always be 5 dices in yatzy so the
-//array size will always be 5.
+//Function to check if there is a yatzy
+//input is the dices that were rolled
 function checkYatzy(currentRoll) {
 
 	var same = true;
 	var current = currentRoll[0];
 
+	//We know we will be getting the dices rolled
+	//so the size will be 5
 	for (let i = 0; i < 5 && same; i++) {
 
 		if (currentRoll[i] != current) {
@@ -272,10 +309,14 @@ function checkYatzy(currentRoll) {
 	return same;
 }
 
+//Function to generate an array of size 6 that
+//indicates how many of each dice we rolled
+//input is an array of how many of each dices
 function calculateEachDice(currentRoll) {
 
 	var currentDices = [0,0,0,0,0,0];
 
+	//size of dices rolled is 5
 	for (let i = 0; i < 5; i++) {
 		currentDices[currentRoll[i] - 1]++;
 	}
@@ -283,6 +324,8 @@ function calculateEachDice(currentRoll) {
 	return currentDices;
 }
 
+//Function to check if there is a pair
+//input is an array of how many of each dices
 function checkOnePair(lstDices) {
 
 	var pair = false;
@@ -298,6 +341,9 @@ function checkOnePair(lstDices) {
 	return pair;
 }
 
+//Function to check if there are two pairs of
+//dices of different numbers
+//input is an array of how many of each dices
 function checkTwoPair(lstDices) {
 
 	var twoPair = false;
@@ -317,6 +363,8 @@ function checkTwoPair(lstDices) {
 	return twoPair;
 }
 
+//Function to check if there are 3 dices of one number
+//input is an array of how many of each dices
 function checkThreeOfAKind(lstDices) {
 
 	var threeKind = false;
@@ -332,6 +380,8 @@ function checkThreeOfAKind(lstDices) {
 	return threeKind;
 }
 
+//Function to check if there are 4 dices of one number
+//input is an array of how many of each dices
 function checkFourOfAKind(lstDices) {
 
 	var fourKind = false;
@@ -347,11 +397,17 @@ function checkFourOfAKind(lstDices) {
 	return fourKind;
 }
 
+//Function to check if there is a straight
+//depending on the start given
+//input is an array of how many of each dices
+//and a start to choose if it starts
+//1-2-3-4-5 or 2-3-4-5-6
 function checkStraight(lstDices, start) {
 
 	var base = start;
 	var isStraight = true;
 
+	//for a straight there needs to be exactly one of each number
 	for (let i = start; i < (5+start) && isStraight; i++) {
 
 		if (lstDices[i] != 1) {
@@ -364,14 +420,20 @@ function checkStraight(lstDices, start) {
 	return isStraight;
 }
 
+//Function to check if there is a full house
+//input is an array of how many of each dices
 function checkFullHouse(lstDices) {
 
 	var fullHouse = false;
 	var twoKind = false;
 	var threeKind = false;
 
+	//we know it's an array of size 6
 	for (let i = 0; i < 6; i++) {
 
+		//we know from the array that for a
+		//full we need 3 of a number and 2
+		//of a different number
 		if (lstDices[i] == 3) {
 			threeKind = true;
 		}
@@ -389,6 +451,8 @@ function checkFullHouse(lstDices) {
 	return fullHouse;
 }
 
+//Function to determine if there aren't
+//any scoreboxes unused
 function checkEndOfGame(scoreBoxState) {
 
 	var gameEnd = true;
@@ -404,6 +468,9 @@ function checkEndOfGame(scoreBoxState) {
 	return gameEnd;
 }
 
+//Function to choose if user
+//wants to keep or reroll a dice
+//and update the label
 function changeKeepOrRoll(index) {
 
 	if (roll != 0) {
@@ -419,13 +486,17 @@ function changeKeepOrRoll(index) {
 
 }
 
+//Function to reset the states for a new turn
 function reset() {
+	
+	//revert to initial values
 	dices = [0,0,0,0,0];
 	keepOrReroll = [0,0,0,0,0];
 	roll = 0;
 	document.getElementById('rollNumber').innerHTML = roll;
 	document.getElementById('buttonRoller').disabled = false;
 
+	//change html to initial dices
 	for (let i = 1; i < 6; i++) {
 		document.getElementById('keepOrReroll' + i).innerHTML = "Roll";
 		document.getElementById('dice' + i).src = "assets/dice1.png";
