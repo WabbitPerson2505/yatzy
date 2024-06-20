@@ -1,9 +1,9 @@
 # How to Play
 Make sure when downloading to keep the file/directory structure as is to ensure the code works.
 
-The yatzy game file is contained within public directory.
+**The yatzy game files is contained within public directory. This directory contains yatzy.html and assets directory to hold the necessary javascripts/css and images needed.**
 
-Note: This game is Yatzy, not Yahtzee. Similar games but with some alterations to the rules and point scoring. Scoring will be explained in next section.
+**Note: This game is Yatzy, not Yahtzee. Similar games but with some alterations to the rules and point scoring. Scoring will be explained in next section.**
 
 Yatzy is a simple game where the goal of the game is to obtain the highest score possible by achieving various different dice combinations.
 
@@ -57,6 +57,10 @@ Note: You may choose which category to pick if a roll overlaps in combination e.
 ![](/docs/design_system/chance2_2.png)
 ![](/docs/design_system/chance2_3.png)
 - 3 is already scored but chance can be used to score it again in its' scorebox
+
+### End of a game
+![Chance](/docs/design_system/gameend.png)
+- The final score is given when picking your last unused category and rolling is disabled
 
 ## My Design System
 [Design System](/docs/design_system.md)
