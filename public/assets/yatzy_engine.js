@@ -13,6 +13,59 @@ function scoreGame(game) {
 	return totalScore;
 }
 
+function calculateScore(scoreBox) {
+
+	if (roll != 0 && scoreBox != "Chance") {
+		var scoreFromBox = scoreTurn(dices, scoreBox);
+		document.getElementById('cell' + scoreBox).innerHTML = scoreFromBox;
+		document.getElementById('button' + scoreBox).disabled = true;
+		document.getElementById('cellScore').innerHTML = scoreGame(scores);
+
+		reset();
+
+		if (checkEndOfGame(states)) {
+			document.getElementById('buttonRoller').disabled = true;
+		}
+		
+	} else if (roll != 0 && scoreBox == "Chance") {
+
+		document.getElementById('buttonOnes').hidden = true;
+		document.getElementById('buttonTwos').hidden = true;
+		document.getElementById('buttonThrees').hidden = true;
+		document.getElementById('buttonFours').hidden = true;
+		document.getElementById('buttonFives').hidden = true;
+		document.getElementById('buttonSixes').hidden = true;
+		document.getElementById('buttonOnePair').hidden = true;
+		document.getElementById('buttonTwoPair').hidden = true;
+		document.getElementById('buttonThreeOfAKind').hidden = true;
+		document.getElementById('buttonFourOfAKind').hidden = true;
+		document.getElementById('buttonSmallStraight').hidden = true;
+		document.getElementById('buttonBigStraight').hidden = true;
+		document.getElementById('buttonFullHouse').hidden = true;
+		document.getElementById('buttonChance').hidden = true;
+		document.getElementById('buttonYatzy').hidden = true;
+		document.getElementById('buttonChance').disabled = true;
+
+		document.getElementById('msgChance').hidden = false;
+		document.getElementById('hiddenOnes').hidden = false;
+		document.getElementById('hiddenTwos').hidden = false;
+		document.getElementById('hiddenThrees').hidden = false;
+		document.getElementById('hiddenFours').hidden = false;
+		document.getElementById('hiddenFives').hidden = false;
+		document.getElementById('hiddenSixes').hidden = false;
+		document.getElementById('hiddenOnePair').hidden = false;
+		document.getElementById('hiddenTwoPair').hidden = false;
+		document.getElementById('hiddenThreeOfAKind').hidden = false;
+		document.getElementById('hiddenFourOfAKind').hidden = false;
+		document.getElementById('hiddenSmallStraight').hidden = false;
+		document.getElementById('hiddenBigStraight').hidden = false;
+		document.getElementById('hiddenFullHouse').hidden = false;
+		document.getElementById('hiddenYatzy').hidden = false;
+
+	}
+
+}
+
 function scoreTurn(game, scoreBox) {
 
 	var score = 0;
@@ -156,6 +209,50 @@ function scoreTurn(game, scoreBox) {
 	return score;
 }
 
+function calculateScoreHidden(scoreBox) {
+	var scoreFromHidden = scoreTurn(dices, scoreBox);
+	document.getElementById('cellChance').innerHTML = scoreFromHidden;
+	scores[13] = scoreFromHidden;
+	states[13] = 1;
+	document.getElementById('cellScore').innerHTML = scoreGame(scores);
+	reset();
+
+	document.getElementById('hiddenOnes').hidden = true;
+	document.getElementById('hiddenTwos').hidden = true;
+	document.getElementById('hiddenThrees').hidden = true;
+	document.getElementById('hiddenFours').hidden = true;
+	document.getElementById('hiddenFives').hidden = true;
+	document.getElementById('hiddenSixes').hidden = true;
+	document.getElementById('hiddenOnePair').hidden = true;
+	document.getElementById('hiddenTwoPair').hidden = true;
+	document.getElementById('hiddenThreeOfAKind').hidden = true;
+	document.getElementById('hiddenFourOfAKind').hidden = true;
+	document.getElementById('hiddenSmallStraight').hidden = true;
+	document.getElementById('hiddenBigStraight').hidden = true;
+	document.getElementById('hiddenFullHouse').hidden = true;
+	document.getElementById('hiddenYatzy').hidden = true;
+	document.getElementById('msgChance').hidden = true;
+
+	document.getElementById('buttonOnes').hidden = false;
+	document.getElementById('buttonTwos').hidden = false;
+	document.getElementById('buttonThrees').hidden = false;
+	document.getElementById('buttonFours').hidden = false;
+	document.getElementById('buttonFives').hidden = false;
+	document.getElementById('buttonSixes').hidden = false;
+	document.getElementById('buttonOnePair').hidden = false;
+	document.getElementById('buttonTwoPair').hidden = false;
+	document.getElementById('buttonThreeOfAKind').hidden = false;
+	document.getElementById('buttonFourOfAKind').hidden = false;
+	document.getElementById('buttonSmallStraight').hidden = false;
+	document.getElementById('buttonBigStraight').hidden = false;
+	document.getElementById('buttonFullHouse').hidden = false;
+	document.getElementById('buttonChance').hidden = false;
+	document.getElementById('buttonYatzy').hidden = false;
+
+	if (checkEndOfGame(states)) {
+			document.getElementById('buttonRoller').disabled = true;
+	}
+}
 
 //There are always be 5 dices in yatzy so the
 //array size will always be 5.
@@ -290,4 +387,48 @@ function checkFullHouse(lstDices) {
 	}
 
 	return fullHouse;
+}
+
+function checkEndOfGame(scoreBoxState) {
+
+	var gameEnd = true;
+
+	for (let i = 0; i < 15 && gameEnd; i++) {
+
+		if (scoreBoxState[i] == 0) {
+			gameEnd = false;
+		}
+
+	}
+
+	return gameEnd;
+}
+
+function changeKeepOrRoll(index) {
+
+	if (roll != 0) {
+
+		if (keepOrReroll[index-1] == 0) {
+			keepOrReroll[index-1] = 1;
+			document.getElementById('keepOrReroll' + index).innerHTML = "Keep";
+		} else {
+			keepOrReroll[index-1] = 0;
+			document.getElementById('keepOrReroll' + index).innerHTML = "Roll";
+		}
+	}
+
+}
+
+function reset() {
+	dices = [0,0,0,0,0];
+	keepOrReroll = [0,0,0,0,0];
+	roll = 0;
+	document.getElementById('rollNumber').innerHTML = roll;
+	document.getElementById('buttonRoller').disabled = false;
+
+	for (let i = 1; i < 6; i++) {
+		document.getElementById('keepOrReroll' + i).innerHTML = "Roll";
+		document.getElementById('dice' + i).src = "assets/dice1.png";
+	}
+
 }
