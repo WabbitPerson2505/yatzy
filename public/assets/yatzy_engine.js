@@ -503,3 +503,96 @@ function reset() {
 	}
 
 }
+
+window.addEventListener("load",start, false);
+
+function start() {
+
+	callApi("load");
+		
+	document.getElementById("roller").addEventListener("click", 
+					function() { callApi("roller"); });
+	document.getElementById("ones").addEventListener("click", 
+					function() { callApi("ones"); });
+	document.getElementById("twos").addEventListener("click", 
+					function() { callApi("twos"); });
+}
+
+function callApi(elementId) {
+
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(this.responseText);
+
+			let responseJson = JSON.parse(this.responseText);
+			
+			for (let i = 1; i < 6; i++) {
+				document.getElementById("dice" + (i)).src = 
+				"assets/dice" + responseJson["rolls"]["dice"+i] + ".png";
+				
+			}
+
+			document.getElementById("rollNumber").innerHTML = responseJson["turn"];
+			document.getElementById("roller").disabled = responseJson["disabled"];
+
+		}
+	};
+
+	var request = "choice=";
+
+	switch (elementId) {
+		case "load":
+			request += "load";
+			break;
+		case "roller":
+			let rolls = {
+				dice1: 0,
+				dice2: 0,
+				dice3: 0,
+				dice4: 0,
+				dice5: 0
+			};
+			request += "roll&diceToRoll=" + JSON.stringify(rolls);
+			break;
+		case "ones":
+		case "twos":
+		case "threes":
+		case "fours":
+		case "fives":
+		case "sixes":
+		case "onePair":
+		case "twoPair":
+		case "threeOfAKind":
+		case "fourOfAKind":
+		case "smallStraight":
+		case "bigStraight":
+		case "fullHouse":
+		case "chance":
+		case "yatzy":
+			request += elementId;	
+			break;
+	}
+
+	/*
+		var roll1 = document.getElementById("cbDice1").checked ? 1 : 0;
+		var roll2 = document.getElementById("cbDice2").checked ? 1 : 0;
+		var roll3 = document.getElementById("cbDice3").checked ? 1 : 0;
+		var roll4 = document.getElementById("cbDice4").checked ? 1 : 0;
+		var roll5 = document.getElementById("cbDice5").checked ? 1 : 0;
+		*/
+		
+		//console.log(JSON.stringify(rolls));
+
+		//var httpRequest = "dice1=" + 0 + "&dice2=" + 0 + "&dice3=" + 0 + 
+		//					"&dice4=" + 0 + "&dice5=" + 0;
+
+	
+
+	xhttp.open("POST","yatzy_api.php",true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(request);
+	
+}

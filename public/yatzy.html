@@ -3,8 +3,6 @@
 <head>
 	<meta charset="utf-8">
 	<title>Yatzy</title>
-	<script type="text/javascript" src="assets/dice.js"></script>
-	<script type="text/javascript" src="assets/yatzy_game.js"></script>
 	<script type="text/javascript" src="assets/yatzy_engine.js"></script>
 	<link type="text/css" rel="stylesheet" href="assets/styles.css">
 </head>
@@ -34,7 +32,7 @@
 		<div class="diceHolders">
 			<label class="item">Turn: </label>
 			<label class="item turn" id="rollNumber">0</label>
-			<button class="rollBtn" id="buttonRoller" onclick="roller()">Roll</button>
+			<button class="rollBtn" id="roller">Roll</button>
 		</div>
 	</div>
 	<div class="yatzyCard">
@@ -46,119 +44,119 @@
 				<td>Ones</td>
 				<td id="cellOnes">&nbsp</td>
 				<td>
-					<button id="buttonOnes" onclick="calculateScore('Ones')">Choose</button>
-					<button id="hiddenOnes" onclick="calculateScoreHidden('Ones')" hidden>Ones</button>
+					<button id="ones">Choose</button>
+					<button id="hiddenOnes" hidden>Ones</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Twos</td>
 				<td id="cellTwos">&nbsp</td>
 				<td>
-					<button id="buttonTwos" onclick="calculateScore('Twos')">Choose</button>
-					<button id="hiddenTwos" onclick="calculateScoreHidden('Twos')" hidden>Twos</button>
+					<button id="twos">Choose</button>
+					<button id="hiddenTwos" hidden>Twos</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Threes</td>
 				<td id="cellThrees">&nbsp</td>
 				<td>
-					<button id="buttonThrees" onclick="calculateScore('Threes')">Choose</button>
-					<button id="hiddenThrees" onclick="calculateScoreHidden('Threes')" hidden>Threes</button>
+					<button id="threes">Choose</button>
+					<button id="hiddenThrees" hidden>Threes</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Fours</td>
 				<td id="cellFours">&nbsp</td>
 				<td>
-					<button id="buttonFours" onclick="calculateScore('Fours')">Choose</button>
-					<button id="hiddenFours" onclick="calculateScoreHidden('Fours')" hidden>Fours</button>
+					<button id="fours">Choose</button>
+					<button id="hiddenFours" hidden>Fours</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Fives</td>
 				<td id="cellFives">&nbsp</td>
 				<td>
-					<button id="buttonFives" onclick="calculateScore('Fives')">Choose</button>
-					<button id="hiddenFives" onclick="calculateScoreHidden('Fives')" hidden>Fives</button>
+					<button id="fives">Choose</button>
+					<button id="hiddenFives" hidden>Fives</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Sixes</td>
 				<td id="cellSixes">&nbsp</td>
 				<td>
-					<button id="buttonSixes" onclick="calculateScore('Sixes')">Choose</button>
-					<button id="hiddenSixes" onclick="calculateScoreHidden('Sixes')" hidden>Sixes</button>
+					<button id="sixes">Choose</button>
+					<button id="hiddenSixes" hidden>Sixes</button>
 				</td>
 			</tr>
 			<tr>
 				<td>1 Pair</td>
 				<td id="cellOnePair">&nbsp</td>
 				<td>
-					<button id="buttonOnePair" onclick="calculateScore('OnePair')">Choose</button>
-					<button id="hiddenOnePair" onclick="calculateScoreHidden('OnePair')" hidden>One Pair</button>
+					<button id="onePair">Choose</button>
+					<button id="hiddenOnePair" hidden>One Pair</button>
 				</td>
 			</tr>
 			<tr>
 				<td>2 Pairs</td>
 				<td id="cellTwoPair">&nbsp</td>
 				<td>
-					<button id="buttonTwoPair" onclick="calculateScore('TwoPair')">Choose</button>
-					<button id="hiddenTwoPair" onclick="calculateScoreHidden('TwoPair')" hidden>Two pair</button>
+					<button id="twoPair">Choose</button>
+					<button id="hiddenTwoPair" hidden>Two pair</button>
 				</td>
 			</tr>
 			<tr>
 				<td>3 of a kind</td>
 				<td id="cellThreeOfAKind">&nbsp</td>
 				<td>
-					<button id="buttonThreeOfAKind" onclick="calculateScore('ThreeOfAKind')">Choose</button>
-					<button id="hiddenThreeOfAKind" onclick="calculateScoreHidden('ThreeOfAKind')" hidden>Three of a kind</button>
+					<button id="threeOfAKind">Choose</button>
+					<button id="hiddenThreeOfAKind" hidden>Three of a kind</button>
 				</td>
 			</tr>
 			<tr>
 				<td>4 of a kind</td>
 				<td id="cellFourOfAKind">&nbsp</td>
 				<td>
-					<button id="buttonFourOfAKind" onclick="calculateScore('FourOfAKind')">Choose</button>
-					<button id="hiddenFourOfAKind" onclick="calculateScoreHidden('FourOfAKind')" hidden>Four of a kind</button>
+					<button id="fourOfAKind">Choose</button>
+					<button id="hiddenFourOfAKind" hidden>Four of a kind</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Small straight</td>
 				<td id="cellSmallStraight">&nbsp</td>
 				<td>
-					<button id="buttonSmallStraight" onclick="calculateScore('SmallStraight')">Choose</button>
-					<button id="hiddenSmallStraight" onclick="calculateScoreHidden('SmallStraight')" hidden>Small straight</button>
+					<button id="smallStraight">Choose</button>
+					<button id="hiddenSmallStraight" hidden>Small straight</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Big straight</td>
 				<td id="cellBigStraight">&nbsp</td>
 				<td>
-					<button id="buttonBigStraight" onclick="calculateScore('BigStraight')">Choose</button>
-					<button id="hiddenBigStraight" onclick="calculateScoreHidden('BigStraight')" hidden>Big straight</button>
+					<button id="bigStraight">Choose</button>
+					<button id="hiddenBigStraight" hidden>Big straight</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Full house</td>
 				<td id="cellFullHouse">&nbsp</td>
 				<td>
-					<button id="buttonFullHouse" onclick="calculateScore('FullHouse')">Choose</button>
-					<button id="hiddenFullHouse" onclick="calculateScoreHidden('FullHouse')" hidden>Full house</button>
+					<button id="fullHouse">Choose</button>
+					<button id="hiddenFullHouse" hidden>Full house</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Chance</td>
 				<td id="cellChance">&nbsp</td>
 				<td>
-					<button id="buttonChance" onclick="calculateScore('Chance')">Choose</button>
+					<button id="chance">Choose</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Yatzy</td>
 				<td id="cellYatzy">&nbsp</td>
 				<td>
-					<button id="buttonYatzy" onclick="calculateScore('Yatzy')">Choose</button>
-					<button id="hiddenYatzy" onclick="calculateScoreHidden('Yatzy')" hidden>Yatzy</button>	
+					<button id="yatzy">Choose</button>
+					<button id="hiddenYatzy" hidden>Yatzy</button>	
 				</td>
 			</tr>
 			<tr>

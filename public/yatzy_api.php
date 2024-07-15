@@ -16,17 +16,34 @@ if (!isset($_SESSION["gameState"])) {
 	$_SESSION["gameState"]["leaderboard"] = [0,0,0,0,0,0,0,0,0,0];
 }
 
-if (isset($_POST["rolling"])) {
+if (isset($_POST["choice"])) {
 
-	$decoded = json_decode($_POST["rolling"]);
+	if ($_POST["choice"] == "roll") {
+		$decoded = json_decode($_POST["diceToRoll"]);
 
-	foreach ($decoded as $k => $v) {
-		$_SESSION["gameState"]["rollOrKeep"][$k] = $v;
+		foreach ($decoded as $k => $v) {
+			$_SESSION["gameState"]["rollOrKeep"][$k] = $v;
+		}
+
+		rollDices();
 	}
-
 }
 
 //print_r($_SESSION["gameState"]);
+
+
+
+
+
+$gameRoll = ["disabled" => false, 
+			"rolls" => $_SESSION["gameState"]["currentRolls"], 
+			"turn" => $_SESSION["gameState"]["currentRoll"]];
+
+if ($_SESSION["gameState"]["currentRoll"] == 3) {
+	$gameRoll["disabled"] = true;
+}
+
+echo json_encode($gameRoll);
 
 function rollDices() {
 
@@ -40,15 +57,4 @@ function rollDices() {
 	$_SESSION["gameState"]["currentRoll"]++;
 
 }
-
-rollDices();
-
-$gameRoll = ["disabled" => false, "rolls" => $_SESSION["gameState"]["currentRolls"]];
-
-if ($_SESSION["gameState"]["currentRoll"] == 3) {
-	$_SESSION["gameState"]["currentRoll"] = 0;
-	$gameRoll["disabled"] = true;
-}
-
-echo json_encode($gameRoll);
 ?>
