@@ -468,42 +468,6 @@ function checkEndOfGame(scoreBoxState) {
 	return gameEnd;
 }
 
-//Function to choose if user
-//wants to keep or reroll a dice
-//and update the label
-function changeKeepOrRoll(index) {
-
-	if (roll != 0) {
-
-		if (keepOrReroll[index-1] == 0) {
-			keepOrReroll[index-1] = 1;
-			document.getElementById('keepOrReroll' + index).innerHTML = "Keep";
-		} else {
-			keepOrReroll[index-1] = 0;
-			document.getElementById('keepOrReroll' + index).innerHTML = "Roll";
-		}
-	}
-
-}
-
-//Function to reset the states for a new turn
-function reset() {
-	
-	//revert to initial values
-	dices = [0,0,0,0,0];
-	keepOrReroll = [0,0,0,0,0];
-	roll = 0;
-	document.getElementById('rollNumber').innerHTML = roll;
-	document.getElementById('buttonRoller').disabled = false;
-
-	//change html to initial dices
-	for (let i = 1; i < 6; i++) {
-		document.getElementById('keepOrReroll' + i).innerHTML = "Roll";
-		document.getElementById('dice' + i).src = "assets/dice1.png";
-	}
-
-}
-
 window.addEventListener("load",start, false);
 
 function start() {
@@ -512,10 +476,40 @@ function start() {
 		
 	document.getElementById("roller").addEventListener("click", 
 					function() { callApi("roller"); });
+	document.getElementById("replay").addEventListener("click", 
+					function() { callApi("replay"); });
+	document.getElementById("reset").addEventListener("click", 
+					function() { callApi("reset"); });
 	document.getElementById("ones").addEventListener("click", 
 					function() { callApi("ones"); });
 	document.getElementById("twos").addEventListener("click", 
 					function() { callApi("twos"); });
+	document.getElementById("threes").addEventListener("click", 
+					function() { callApi("threes"); });
+	document.getElementById("fours").addEventListener("click", 
+					function() { callApi("fours"); });
+	document.getElementById("fives").addEventListener("click", 
+					function() { callApi("fives"); });
+	document.getElementById("sixes").addEventListener("click", 
+					function() { callApi("sixes"); });
+	document.getElementById("onePair").addEventListener("click", 
+					function() { callApi("onePair"); });
+	document.getElementById("twoPair").addEventListener("click", 
+					function() { callApi("twoPair"); });
+	document.getElementById("threeOfAKind").addEventListener("click", 
+					function() { callApi("threeOfAKind"); });
+	document.getElementById("fourOfAKind").addEventListener("click", 
+					function() { callApi("fourOfAKind"); });
+	document.getElementById("smallStraight").addEventListener("click", 
+					function() { callApi("smallStraight"); });
+	document.getElementById("bigStraight").addEventListener("click", 
+					function() { callApi("bigStraight"); });
+	document.getElementById("fullHouse").addEventListener("click", 
+					function() { callApi("fullHouse"); });
+	document.getElementById("chance").addEventListener("click", 
+					function() { callApi("chance"); });
+	document.getElementById("yatzy").addEventListener("click", 
+					function() { callApi("yatzy"); });
 }
 
 function callApi(elementId) {
@@ -572,6 +566,8 @@ function callApi(elementId) {
 		case "fullHouse":
 		case "chance":
 		case "yatzy":
+		case "replay":
+		case "reset":
 			request += elementId;	
 			break;
 	}

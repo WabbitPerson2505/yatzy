@@ -2,8 +2,6 @@
 
 session_start();
 
-//unset($_SESSION["gameState"]);
-
 if (!isset($_SESSION["gameState"])) {
 	$_SESSION["gameState"] = [];
 	$_SESSION["gameState"]["currentRolls"] = 
@@ -26,6 +24,24 @@ if (isset($_POST["choice"])) {
 		}
 
 		rollDices();
+	} else if ($_POST["choice"] == "replay") {
+		$_SESSION["gameState"]["currentRolls"] = 
+			["dice1" => 1, "dice2" => 1, "dice3" => 1, "dice4" => 1, "dice5" => 1];
+		$_SESSION["gameState"]["rollOrKeep"] = 
+			["dice1" => 0, "dice2" => 0, "dice3" => 0, "dice4" => 0, "dice5" => 0];
+		$_SESSION["gameState"]["currentRoll"] = 0;
+		$_SESSION["gameState"]["scores"] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		$_SESSION["gameState"]["totalScore"] = 0;
+	} else if ($_POST["choice"] == "reset") {
+		$_SESSION["gameState"] = [];
+		$_SESSION["gameState"]["currentRolls"] = 
+			["dice1" => 1, "dice2" => 1, "dice3" => 1, "dice4" => 1, "dice5" => 1];
+		$_SESSION["gameState"]["rollOrKeep"] = 
+			["dice1" => 0, "dice2" => 0, "dice3" => 0, "dice4" => 0, "dice5" => 0];
+		$_SESSION["gameState"]["currentRoll"] = 0;
+		$_SESSION["gameState"]["scores"] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		$_SESSION["gameState"]["totalScore"] = 0;
+		$_SESSION["gameState"]["leaderboard"] = [0,0,0,0,0,0,0,0,0,0];
 	}
 }
 
