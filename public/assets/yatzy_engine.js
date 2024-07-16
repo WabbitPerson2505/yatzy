@@ -10,16 +10,6 @@ function start() {
 					function() { callApi("replay", false); });
 	document.getElementById("reset").addEventListener("click", 
 					function() { callApi("reset", false); });
-	document.getElementById("change1").addEventListener("click", 
-					function() { changeOrKeep("change1"); });
-	document.getElementById("change2").addEventListener("click", 
-					function() { changeOrKeep("change2"); });
-	document.getElementById("change3").addEventListener("click", 
-					function() { changeOrKeep("change3"); });
-	document.getElementById("change4").addEventListener("click", 
-					function() { changeOrKeep("change4"); });
-	document.getElementById("change5").addEventListener("click", 
-					function() { changeOrKeep("change5"); });
 	document.getElementById("ones").addEventListener("click", 
 					function() { callApi("ones", false); });
 	document.getElementById("twos").addEventListener("click", 
@@ -78,6 +68,11 @@ function start() {
 					function() { callApi("fullHouse", true); });
 	document.getElementById('hiddenYatzy').addEventListener("click", 
 					function() { callApi("yatzy", true); });
+
+	for (let i = 1; i < 6; i++) {
+		document.getElementById("change"+i).addEventListener("click", 
+					function() { callApi("change"+i, false); });
+	}
 }
 
 function callApi(elementId, chance) {
@@ -91,31 +86,7 @@ function callApi(elementId, chance) {
 
 			let responseJson = JSON.parse(this.responseText);
 			
-			for (let i = 1; i < 6; i++) {
-				document.getElementById("dice" + (i)).src = 
-				"assets/dice" + responseJson["state"]["dices"]["dice"+i] + ".png";
-				
-			}
-
-			document.getElementById("rollNumber").innerHTML = responseJson["state"]["turn"];
-			document.getElementById("roller").disabled = responseJson["disabled"];
-			
-			for (k in responseJson["state"]["categories"]) {
-				document.getElementById(k + "Cell").innerHTML = 
-					responseJson["state"]["categories"][k]["score"];
-				document.getElementById(k).disabled = 
-					responseJson["state"]["categories"][k]["scored"];
-			}
-			
-			showHidden(responseJson["hidden"]);
-
-			document.getElementById("cellScore").innerHTML = responseJson["state"]["score"];
-			document.getElementById("leaderboard").innerHTML = "";
-
-			for (k in responseJson["leaderboard"]) {
-				document.getElementById("leaderboard").innerHTML += 
-					"<li>" + responseJson["leaderboard"][k] + "</li>";
-			}
+			updateHtml(responseJson);
 		}
 	};
 
@@ -127,15 +98,6 @@ function callApi(elementId, chance) {
 
 	switch (elementId) {
 		case "roller":
-			let rolls = {
-				dice1: 0,
-				dice2: 0,
-				dice3: 0,
-				dice4: 0,
-				dice5: 0
-			};
-			request += "roll&diceToRoll=" + JSON.stringify(rolls);
-			break;
 		case "ones":
 		case "twos":
 		case "threes":
@@ -154,6 +116,13 @@ function callApi(elementId, chance) {
 		case "reset":
 		case "chance":
 			request +=  elementId;	
+			break;
+		case "change1":
+		case "change2":
+		case "change3":
+		case "change4":
+		case "change5":
+			request += "change&dice=dice"+ elementId.charAt(6);
 			break;
 		default:
 			break;
@@ -203,17 +172,34 @@ function showHidden(hide) {
 	document.getElementById('yatzy').hidden = !hide;
 }
 
-function changeOrKeep(elementId) {
-	var element = document.getElementById(elementId);
+function updateHtml(response) {
+	for (let i = 1; i < 6; i++) {
+		document.getElementById("dice" + (i)).src = 
+		"assets/dice" + response["state"]["dices"]["dice"+i] + ".png";	
+	}
 
-	if (roll != 0) {
+	document.getElementById("rollNumber").innerHTML = response["state"]["turn"];
+	document.getElementById("roller").disabled = response["disabled"];
+			
+	for (k in response["state"]["categories"]) {
+		document.getElementById(k + "Cell").innerHTML = 
+			response["state"]["categories"][k]["score"];
+		document.getElementById(k).disabled = 
+			response["state"]["categories"][k]["scored"];
+	}
+			
+	showHidden(response["hidden"]);
 
-		if (keepOrReroll[index-1] == 0) {
-			keepOrReroll[index-1] = 1;
-			document.getElementById('keepOrReroll' + index).innerHTML = "Keep";
-		} else {
-			keepOrReroll[index-1] = 0;
-			document.getElementById('keepOrReroll' + index).innerHTML = "Roll";
-		}
+	document.getElementById("cellScore").innerHTML = response["state"]["score"];
+	document.getElementById("leaderboard").innerHTML = "";
+
+	for (k in response["leaderboard"]) {
+		document.getElementById("leaderboard").innerHTML += 
+		"<li>" + response["leaderboard"][k] + "</li>";
+	}
+
+	for (k in response["state"]["keeps"]) {
+		document.getElementById("keepOrReroll"+k.charAt(4)).innerHTML = 
+		response["state"]["keeps"][k] == 0? "roll" : "keep";
 	}
 }

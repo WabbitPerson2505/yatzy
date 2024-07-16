@@ -19,6 +19,7 @@
 	class GameState {
 		public $categories = [];
 		public $dices = [];
+		public $keeps = [];
 		public $turn;
 		public $score;
 		public $gameEnd;
@@ -35,7 +36,8 @@
 
 			$this->dices = ["dice1" => 1, "dice2" => 1, "dice3" => 1,
 						    "dice4" => 1, "dice5" => 1];
-			
+			$this->keeps = ["dice1" => 0, "dice2" => 0, "dice3" => 0,
+						    "dice4" => 0, "dice5" => 0];
 			$this->turn = 0;
 			$this->score = 0;
 			$this->gameEnd = false;
@@ -49,7 +51,7 @@
 
 			$cat = $this->categories[$cate];
 
-			if ($cat->scored) {
+			if ($cat->scored || ($this->turn == 0)) {
 				return;
 			}
 
@@ -182,13 +184,13 @@
 			}
 		}
 
-		function rollDices($keeps) {
+		function rollDices() {
 
 			if ($this->turn == 3) {
 				return;
 			}
 
-			foreach ($keeps as $k => $v) {
+			foreach ($this->keeps as $k => $v) {
 				if ($v == 0) {
 					$this->dices[$k] = rand(1,6);
 				}
@@ -211,6 +213,16 @@
 			$this->gameEnd = $end;
 		}
 
+		function change($key) {
+
+			if (!isset($this->keeps[$key]) ||
+				$this->turn == 0) {
+				return;
+			} 
+
+			$this->keeps[$key] = 1 - $this->keeps[$key]; 
+		}	
+
 		//returns a list that shows the amount of
 		//each number that were rolled
 		private function calculateNumbers() {
@@ -223,6 +235,6 @@
 			}
 
 			return $numbers;
-		}		
+		}
 	}
 ?>

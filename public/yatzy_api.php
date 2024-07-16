@@ -13,9 +13,8 @@ if (!isset($_SESSION["gameState"])) {
 
 if (isset($_POST["choice"])) {
 
-	if ($_POST["choice"] == "roll") {
-		$decoded = json_decode($_POST["diceToRoll"]);
-		$_SESSION["gameState"]->rollDices($decoded);
+	if ($_POST["choice"] == "roller") {
+		$_SESSION["gameState"]->rollDices();
 			
 		if ($_SESSION["gameState"]->turn == 3) {
 			$_SESSION["disabled"] = true;
@@ -29,6 +28,8 @@ if (isset($_POST["choice"])) {
 		$_SESSION["leaderboard"] = [0,0,0,0,0,0,0,0,0,0];
 		$_SESSION["disabled"] = false;
 		$_SESSION["hidden"] = true;
+	} else if ($_POST["choice"] == "change") {
+		$_SESSION["gameState"]->change($_POST["dice"]);
 	} else if ($_POST["choice"] == "chance") {
 		$_SESSION["hidden"] = false;
 	} else {
