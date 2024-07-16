@@ -1,76 +1,72 @@
 <?php 
 
+include "yatzy_game.php";
+
 session_start();
 
 if (!isset($_SESSION["gameState"])) {
-	$_SESSION["gameState"] = [];
-	$_SESSION["gameState"]["currentRolls"] = 
-		["dice1" => 1, "dice2" => 1, "dice3" => 1, "dice4" => 1, "dice5" => 1];
-	$_SESSION["gameState"]["rollOrKeep"] = 
-		["dice1" => 0, "dice2" => 0, "dice3" => 0, "dice4" => 0, "dice5" => 0];
-	$_SESSION["gameState"]["currentRoll"] = 0;
-	$_SESSION["gameState"]["scores"] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	$_SESSION["gameState"]["totalScore"] = 0;
-	$_SESSION["gameState"]["leaderboard"] = [0,0,0,0,0,0,0,0,0,0];
+	$_SESSION["gameState"] = new GameState();
+	$_SESSION["leaderboard"] = [0,0,0,0,0,0,0,0,0,0];
+	$_SESSION["disabled"] = false;
+	$_SESSION["hidden"] = true;
 }
 
 if (isset($_POST["choice"])) {
 
 	if ($_POST["choice"] == "roll") {
 		$decoded = json_decode($_POST["diceToRoll"]);
-
-		foreach ($decoded as $k => $v) {
-			$_SESSION["gameState"]["rollOrKeep"][$k] = $v;
+		$_SESSION["gameState"]->rollDices($decoded);
+			
+		if ($_SESSION["gameState"]->turn == 3) {
+			$_SESSION["disabled"] = true;
 		}
-
-		rollDices();
 	} else if ($_POST["choice"] == "replay") {
-		$_SESSION["gameState"]["currentRolls"] = 
-			["dice1" => 1, "dice2" => 1, "dice3" => 1, "dice4" => 1, "dice5" => 1];
-		$_SESSION["gameState"]["rollOrKeep"] = 
-			["dice1" => 0, "dice2" => 0, "dice3" => 0, "dice4" => 0, "dice5" => 0];
-		$_SESSION["gameState"]["currentRoll"] = 0;
-		$_SESSION["gameState"]["scores"] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		$_SESSION["gameState"]["totalScore"] = 0;
+		$_SESSION["gameState"] = new GameState();
+		$_SESSION["disabled"] = false;
+		$_SESSION["hidden"] = true;
 	} else if ($_POST["choice"] == "reset") {
-		$_SESSION["gameState"] = [];
-		$_SESSION["gameState"]["currentRolls"] = 
-			["dice1" => 1, "dice2" => 1, "dice3" => 1, "dice4" => 1, "dice5" => 1];
-		$_SESSION["gameState"]["rollOrKeep"] = 
-			["dice1" => 0, "dice2" => 0, "dice3" => 0, "dice4" => 0, "dice5" => 0];
-		$_SESSION["gameState"]["currentRoll"] = 0;
-		$_SESSION["gameState"]["scores"] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		$_SESSION["gameState"]["totalScore"] = 0;
-		$_SESSION["gameState"]["leaderboard"] = [0,0,0,0,0,0,0,0,0,0];
-	}
-}
-
-//print_r($_SESSION["gameState"]);
-
-
-
-
-
-$gameRoll = ["disabled" => false, 
-			"rolls" => $_SESSION["gameState"]["currentRolls"], 
-			"turn" => $_SESSION["gameState"]["currentRoll"]];
-
-if ($_SESSION["gameState"]["currentRoll"] == 3) {
-	$gameRoll["disabled"] = true;
-}
-
-echo json_encode($gameRoll);
-
-function rollDices() {
-
-	foreach ($_SESSION["gameState"]["currentRolls"] as $k => $v) {
-		if ($_SESSION["gameState"]["rollOrKeep"][$k] == 0) {
-			$_SESSION["gameState"]["currentRolls"][$k] = rand(1,6);
+		$_SESSION["gameState"] = new GameState();
+		$_SESSION["leaderboard"] = [0,0,0,0,0,0,0,0,0,0];
+		$_SESSION["disabled"] = false;
+		$_SESSION["hidden"] = true;
+	} else if ($_POST["choice"] == "chance") {
+		$_SESSION["hidden"] = false;
+	} else {
+		
+		$chance = false;
+		if (isset($_POST["chance"])) {
+			$chance = true;
 		}
 
+		$_SESSION["gameState"]->calculateScore($_POST["choice"], $chance);
+		$_SESSION["gameState"]->checkRoundEnd();
+		$_SESSION["hidden"] = true;
+
+		if (!($_SESSION["gameState"]->gameEnd)) {
+			$_SESSION["disabled"] = false;
+		} else {
+			$_SESSION["disabled"] = true;
+			$stop = false;
+
+			for ($i = 0; $i < 10 && !$stop; $i++) {
+				if ($_SESSION["leaderboard"][$i] < $_SESSION["gameState"]->score) {
+
+					if ($i != 9) {
+						$_SESSION["leaderboard"][$i+1] = $_SESSION["leaderboard"][$i];
+					}
+
+					$_SESSION["leaderboard"][$i] = $_SESSION["gameState"]->score;
+					$stop = true;
+				}
+			}
+		}
 	}
-
-	$_SESSION["gameState"]["currentRoll"]++;
-
 }
+
+$state = ["state" => $_SESSION["gameState"], 
+		  "leaderboard" => $_SESSION["leaderboard"],
+		  "disabled" => $_SESSION["disabled"],
+		  "hidden" => $_SESSION["hidden"]];
+
+echo json_encode($state);
 ?>

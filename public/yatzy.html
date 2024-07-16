@@ -23,18 +23,7 @@
 		<label style=" font-size: 13pt; font-weight: bold;">
 			Leaderboard:
 		</label>
-		<ol>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-			<li>2000</li>
-		</ol>
+		<ol id="leaderboard"></ol>
 	</div>
 	<div class="yatzyScreen">
 		<div class="diceHolders">
@@ -52,11 +41,11 @@
 			<label class="item" id="keepOrReroll5">Roll</label>
 		</div>
 		<div class="diceHolders">
-			<button class="diceBtn" onclick="changeKeepOrRoll(1)">Change</button>
-			<button class="diceBtn" onclick="changeKeepOrRoll(2)">Change</button>
-			<button class="diceBtn" onclick="changeKeepOrRoll(3)">Change</button>
-			<button class="diceBtn" onclick="changeKeepOrRoll(4)">Change</button>
-			<button class="diceBtn" onclick="changeKeepOrRoll(5)">Change</button>
+			<button class="diceBtn" id="change1">Change</button>
+			<button class="diceBtn" id="change2">Change</button>
+			<button class="diceBtn" id="change3">Change</button>
+			<button class="diceBtn" id="change4">Change</button>
+			<button class="diceBtn" id="change5">Change</button>
 		</div>
 		<div class="diceHolders">
 			<label class="item">Turn: </label>
@@ -71,7 +60,7 @@
 		<table class="yatzyScoreCard">
 			<tr>
 				<td>Ones</td>
-				<td id="cellOnes">&nbsp</td>
+				<td id="onesCell">&nbsp</td>
 				<td>
 					<button id="ones">Choose</button>
 					<button id="hiddenOnes" hidden>Ones</button>
@@ -79,7 +68,7 @@
 			</tr>
 			<tr>
 				<td>Twos</td>
-				<td id="cellTwos">&nbsp</td>
+				<td id="twosCell">&nbsp</td>
 				<td>
 					<button id="twos">Choose</button>
 					<button id="hiddenTwos" hidden>Twos</button>
@@ -87,7 +76,7 @@
 			</tr>
 			<tr>
 				<td>Threes</td>
-				<td id="cellThrees">&nbsp</td>
+				<td id="threesCell">&nbsp</td>
 				<td>
 					<button id="threes">Choose</button>
 					<button id="hiddenThrees" hidden>Threes</button>
@@ -95,7 +84,7 @@
 			</tr>
 			<tr>
 				<td>Fours</td>
-				<td id="cellFours">&nbsp</td>
+				<td id="foursCell">&nbsp</td>
 				<td>
 					<button id="fours">Choose</button>
 					<button id="hiddenFours" hidden>Fours</button>
@@ -103,7 +92,7 @@
 			</tr>
 			<tr>
 				<td>Fives</td>
-				<td id="cellFives">&nbsp</td>
+				<td id="fivesCell">&nbsp</td>
 				<td>
 					<button id="fives">Choose</button>
 					<button id="hiddenFives" hidden>Fives</button>
@@ -111,7 +100,7 @@
 			</tr>
 			<tr>
 				<td>Sixes</td>
-				<td id="cellSixes">&nbsp</td>
+				<td id="sixesCell">&nbsp</td>
 				<td>
 					<button id="sixes">Choose</button>
 					<button id="hiddenSixes" hidden>Sixes</button>
@@ -119,7 +108,7 @@
 			</tr>
 			<tr>
 				<td>1 Pair</td>
-				<td id="cellOnePair">&nbsp</td>
+				<td id="onePairCell">&nbsp</td>
 				<td>
 					<button id="onePair">Choose</button>
 					<button id="hiddenOnePair" hidden>One Pair</button>
@@ -127,7 +116,7 @@
 			</tr>
 			<tr>
 				<td>2 Pairs</td>
-				<td id="cellTwoPair">&nbsp</td>
+				<td id="twoPairCell">&nbsp</td>
 				<td>
 					<button id="twoPair">Choose</button>
 					<button id="hiddenTwoPair" hidden>Two pair</button>
@@ -135,7 +124,7 @@
 			</tr>
 			<tr>
 				<td>3 of a kind</td>
-				<td id="cellThreeOfAKind">&nbsp</td>
+				<td id="threeOfAKindCell">&nbsp</td>
 				<td>
 					<button id="threeOfAKind">Choose</button>
 					<button id="hiddenThreeOfAKind" hidden>Three of a kind</button>
@@ -143,7 +132,7 @@
 			</tr>
 			<tr>
 				<td>4 of a kind</td>
-				<td id="cellFourOfAKind">&nbsp</td>
+				<td id="fourOfAKindCell">&nbsp</td>
 				<td>
 					<button id="fourOfAKind">Choose</button>
 					<button id="hiddenFourOfAKind" hidden>Four of a kind</button>
@@ -151,7 +140,7 @@
 			</tr>
 			<tr>
 				<td>Small straight</td>
-				<td id="cellSmallStraight">&nbsp</td>
+				<td id="smallStraightCell">&nbsp</td>
 				<td>
 					<button id="smallStraight">Choose</button>
 					<button id="hiddenSmallStraight" hidden>Small straight</button>
@@ -159,7 +148,7 @@
 			</tr>
 			<tr>
 				<td>Big straight</td>
-				<td id="cellBigStraight">&nbsp</td>
+				<td id="bigStraightCell">&nbsp</td>
 				<td>
 					<button id="bigStraight">Choose</button>
 					<button id="hiddenBigStraight" hidden>Big straight</button>
@@ -167,7 +156,7 @@
 			</tr>
 			<tr>
 				<td>Full house</td>
-				<td id="cellFullHouse">&nbsp</td>
+				<td id="fullHouseCell">&nbsp</td>
 				<td>
 					<button id="fullHouse">Choose</button>
 					<button id="hiddenFullHouse" hidden>Full house</button>
@@ -175,14 +164,14 @@
 			</tr>
 			<tr>
 				<td>Chance</td>
-				<td id="cellChance">&nbsp</td>
+				<td id="chanceCell">&nbsp</td>
 				<td>
 					<button id="chance">Choose</button>
 				</td>
 			</tr>
 			<tr>
 				<td>Yatzy</td>
-				<td id="cellYatzy">&nbsp</td>
+				<td id="yatzyCell">&nbsp</td>
 				<td>
 					<button id="yatzy">Choose</button>
 					<button id="hiddenYatzy" hidden>Yatzy</button>	
