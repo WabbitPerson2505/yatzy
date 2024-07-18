@@ -54,3 +54,6 @@ Pseudo banner to hold the dices and buttons to play
 
 ### Board shown when picking chance
 ![Scoreboard](/docs/design_system/chanceboard.png)
+
+### Leaderboard for top 10 scores
+![leaderboard](/docs/design_system/leaderboard.png)

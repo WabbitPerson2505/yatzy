@@ -38,6 +38,29 @@ Note: You may choose which category to pick if a roll overlaps in combination e.
 
 - **5.** The game ends once all scoreboxes have been filled, the score appearing at the bottom of the scorebox card.
 
+## Additional info/rules on yatzy game
+- You may only score in a category after rolling the dices at least once.
+- You can only choose which die to keep or reroll after you have at least rolled
+the dices once.
+- You may choose to restart a game without saving the progress of that round
+and it will not be added to the leaderboard. See the replay button at the showcase screenshot.
+- You can also reset all progress including the leaderboard if you wish to start anew. 
+See reset button at the showcase screenshot.
+- The php settings enable the game to be saved without needing a local save.
+Therefore if you decide to leave and close the browser, the api will load the last saved state
+including all previous scores.
+
+## Instructions to enable game in php
+- **1.** Install php from [https://www.php.net/]
+- **2.** Set your directory from the GitHub and open a console at the (/public) directory or changing the directory manually from the console.
+- **3.** Type in the following command on the console. You may need to add the php directory to your environment variables otherwise you maybe to substitute php with the path you stored/installed the php binary files.
+![console](/docs/design_system/console.png)
+- **4.** Open a tab on your browser at the ip started by the built in php server, in our case localhost:8000
+![server](/docs/design_system/server.png)
+
+**Warning this is only for testing purposes but it will serve our needs. This should never be used to deploy for production and you must set up a server if you wish to put on the web**
+	
+
 ## Demonstrations
 
 ### Start of game
@@ -61,6 +84,16 @@ Note: You may choose which category to pick if a roll overlaps in combination e.
 ### End of a game
 ![Chance](/docs/design_system/gameend.png)
 - The final score is given when picking your last unused category and rolling is disabled
+
+### Showcase of the features
+![Showcase](/docs/design_system/showcase.png)
+
+### New feature, leaderboard keeping track of previous games
+![Leaderboard](/docs/design_system/leaderboard.png)
+
+## Extra
+I have kept a javascript version of the yatzy game in (/versions/v01) for those
+wish to save the game locally.
 
 ## My Design System
 [Design System](/docs/design_system.md)

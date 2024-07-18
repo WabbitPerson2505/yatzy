@@ -73,3 +73,63 @@ td {
 	font-size: 13pt; 
 	margin-left: 25px;
 }
+
+.lbRoundEnd {
+	float: right; 
+	width: 25%; 
+	font-size: 13pt; 
+	margin-left: 25px;
+}
+
+.roundEndBtn {
+	font-size: 15pt;
+	margin-top: 10px;
+}
+
+.playerBtns {
+	float: left;
+}
+
+.lbReplay {
+	margin-top: 20px; 
+	font-size: 14pt; 
+	font-weight:bold;
+	margin-bottom:10px; 
+}
+
+.replaySec {
+	margin-bottom: 30px; 
+	margin-top: 10px; 
+}
+
+.replayBtn {
+	font-size: 15pt;
+}
+
+.lbReset {
+	margin-top: 20px; 
+	font-size: 14pt; 
+	font-weight:bold; 
+	margin-bottom: 10px; 
+}
+
+.resetBtn {
+	font-size: 15pt; 
+	margin-top: 10px; 
+}
+
+.boardSec {
+	float: right; 
+	margin-right: 20px;
+}
+
+.lbBoard {
+	font-size: 13pt; 
+	font-weight: bold;
+}
+
+li {
+	width: 50%;
+	font-size: 12pt;
+	text-align: right;
+}

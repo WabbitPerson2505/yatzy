@@ -68,6 +68,8 @@ function start() {
 					function() { callApi("fullHouse", true); });
 	document.getElementById('hiddenYatzy').addEventListener("click", 
 					function() { callApi("yatzy", true); });
+	document.getElementById("endBtn").addEventListener("click", 
+					function() { callApi("replay", false); });
 
 	for (let i = 1; i < 6; i++) {
 		document.getElementById("change"+i).addEventListener("click", 
@@ -132,10 +134,9 @@ function callApi(elementId, chance) {
 		request += "&chance=true";
 	}
 
-	xhttp.open("POST","yatzy_api.php",true);
+	xhttp.open("POST","api.php",true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(request);
-	console.log(xhttp);
 }
 
 function showHidden(hide) {
@@ -175,22 +176,25 @@ function showHidden(hide) {
 function updateHtml(response) {
 	for (let i = 1; i < 6; i++) {
 		document.getElementById("dice" + (i)).src = 
-		"assets/dice" + response["state"]["dices"]["dice"+i] + ".png";	
+			"assets/dice" + response["game"]["turn"]["dices"]
+			["dice"+i]["roll"] + ".png";	
 	}
 
-	document.getElementById("rollNumber").innerHTML = response["state"]["turn"];
+	document.getElementById("rollNumber").innerHTML = 
+			response["game"]["turn"]["roll"];
 	document.getElementById("roller").disabled = response["disabled"];
 			
-	for (k in response["state"]["categories"]) {
+	for (k in response["game"]["categories"]) {
 		document.getElementById(k + "Cell").innerHTML = 
-			response["state"]["categories"][k]["score"];
+			response["game"]["categories"][k]["score"];
 		document.getElementById(k).disabled = 
-			response["state"]["categories"][k]["scored"];
+			response["game"]["categories"][k]["scored"];
 	}
 			
 	showHidden(response["hidden"]);
+	document.getElementById("msgEnd").hidden = !response["end"];
 
-	document.getElementById("cellScore").innerHTML = response["state"]["score"];
+	document.getElementById("cellScore").innerHTML = response["totalScore"];
 	document.getElementById("leaderboard").innerHTML = "";
 
 	for (k in response["leaderboard"]) {
@@ -198,8 +202,8 @@ function updateHtml(response) {
 		"<li>" + response["leaderboard"][k] + "</li>";
 	}
 
-	for (k in response["state"]["keeps"]) {
+	for (k in response["game"]["turn"]["dices"]) {
 		document.getElementById("keepOrReroll"+k.charAt(4)).innerHTML = 
-		response["state"]["keeps"][k] == 0? "roll" : "keep";
+		response["game"]["turn"]["dices"][k]["kept"]? "keep" : "roll";
 	}
 }
