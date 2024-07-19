@@ -5,6 +5,8 @@ Make sure when downloading to keep the file/directory structure as is to ensure 
 
 **Note: This game is Yatzy, not Yahtzee. Similar games but with some alterations to the rules and point scoring. Scoring will be explained in next section.**
 
+**Update: this game now runs on a php server, therefore to run the current version of yatzy you must install a php server to run the appropriate files. The normal download from https://www.php.net/ will do if you are only planning to test and see the features of the game. The built in server should be used for production and only deployed for testing and bug fixing**
+
 Yatzy is a simple game where the goal of the game is to obtain the highest score possible by achieving various different dice combinations.
 
 ## Rules of yatzy
@@ -92,7 +94,7 @@ including all previous scores.
 ![Leaderboard](/docs/design_system/leaderboard.png)
 
 ## Extra
-I have kept a javascript version of the yatzy game in (/versions/v01) for those
+I have kept a javascript version of the yatzy game in /versions/v01 for those
 wish to save the game locally.
 
 ## My Design System
